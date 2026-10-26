@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { X, ShieldCheck, Check, Sparkles, ExternalLink, Download, Lock, QrCode, Smartphone, ArrowRight } from 'lucide-react';
+import { X, ShieldCheck, Check, ExternalLink, Download, Lock } from 'lucide-react';
 import { CHECKOUT_URL } from '../data/landingData';
 
 interface CheckoutModalProps {
@@ -8,13 +7,11 @@ interface CheckoutModalProps {
 }
 
 export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
-  const [activeMethod, setActiveMethod] = useState<'direct' | 'upi'>('direct');
-
   if (!isOpen) return null;
 
   const handleProceed = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    // Redirect to the exact checkout URL from the reference site
+    // Redirect directly to the checkout URL
     window.location.href = CHECKOUT_URL;
   };
 
@@ -41,32 +38,6 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
           <p className="text-xs text-slate-400 mt-1">
             ₹199 का पेमेंट पूरा होते ही 4 PDFs और 5 बोनसेज तुरंत डाउनलोड हो जाएंगे
           </p>
-        </div>
-
-        {/* Tab Toggle for Payment Method */}
-        <div className="grid grid-cols-2 gap-2 p-1 bg-slate-950 rounded-xl mb-5 border border-slate-800">
-          <button
-            onClick={() => setActiveMethod('direct')}
-            className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeMethod === 'direct'
-                ? 'bg-emerald-500 text-slate-950 shadow-sm'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <Smartphone className="w-3.5 h-3.5" />
-            <span>1-Click Payment</span>
-          </button>
-          <button
-            onClick={() => setActiveMethod('upi')}
-            className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeMethod === 'upi'
-                ? 'bg-emerald-500 text-slate-950 shadow-sm'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <QrCode className="w-3.5 h-3.5" />
-            <span>Scan QR Preview</span>
-          </button>
         </div>
 
         {/* Order Summary Box */}
@@ -111,25 +82,6 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
             </div>
           </div>
         </div>
-
-        {/* UPI QR View */}
-        {activeMethod === 'upi' ? (
-          <div className="text-center p-4 bg-slate-950 rounded-2xl border border-slate-800 mb-5">
-            <p className="text-xs text-slate-300 mb-2 font-medium">
-              किसी भी UPI ऐप से Scan करें: Google Pay, PhonePe, Paytm
-            </p>
-            <div className="w-40 h-40 mx-auto bg-white p-2 rounded-xl border-2 border-emerald-400 shadow-md flex items-center justify-center">
-              {/* Simulated QR Code Graphic */}
-              <div className="w-full h-full bg-slate-950 p-2 rounded-lg flex flex-col items-center justify-center text-center">
-                <QrCode className="w-20 h-20 text-emerald-400" />
-                <span className="text-[9px] text-slate-300 mt-1 font-mono font-bold">UPI ID: superprofile@pay</span>
-              </div>
-            </div>
-            <p className="text-[11px] text-amber-300 mt-2 font-semibold">
-              Scan & Pay ₹199 या नीचे बटन पर क्लिक करके सीधे पे करें:
-            </p>
-          </div>
-        ) : null}
 
         {/* Supported Payment Logos / Pills */}
         <div className="flex items-center justify-center gap-2 mb-4 text-[11px] text-slate-300">
